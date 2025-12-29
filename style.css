@@ -238,3 +238,133 @@ h3 {
     animation: pulse 1.5s ease infinite;
 }
 
+.preloader-logo-img {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px var(--primary-glow));
+}
+
+.preloader-text {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+    font-size: 1.1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.preloader-bar {
+    width: 180px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.preloader-bar::after {
+    content: '';
+    display: block;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--gold));
+    border-radius: 3px;
+    animation: barSlide 1.2s ease-in-out infinite;
+}
+
+@keyframes barSlide {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(350%);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* ============================
+   HEADER / TOP NAV
+   ============================ */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(5, 9, 26, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 0;
+    transition: var(--trans);
+}
+
+header.scrolled {
+    background: rgba(5, 9, 26, 0.95);
+    border-bottom-color: rgba(21, 101, 255, 0.3);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px var(--primary-glow));
+}
+
+.logo span {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--text), var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.4rem 0;
+    position: relative;
+    transition: var(--trans);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
