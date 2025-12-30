@@ -498,3 +498,133 @@ main {
    ============================ */
 .hero {
     position: relative;
+    min-height: 92vh;
+    height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 0 0 2.5rem 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-image: var(--hero-bg, url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920'));
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.35) saturate(1.2);
+    transform: scale(1.04);
+    transition: transform 12s ease;
+}
+
+.hero:hover::before {
+    transform: scale(1);
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(5, 9, 26, 0.2) 0%, rgba(5, 9, 26, 0.7) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 2rem 1.5rem;
+    animation: fadeUp 1s ease-out;
+}
+
+.hero h1 {
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffffff 30%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(21, 101, 255, 0.4));
+}
+
+.motto {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    display: block;
+    text-shadow: 0 0 20px var(--gold-glow);
+}
+
+/* Glowing divider */
+.hero-divider {
+    width: 60px;
+    height: 3px;
+    margin: 0 auto 2rem;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--gold));
+    box-shadow: 0 0 12px var(--primary-glow);
+}
+
+/* ============================
+   BUTTONS
+   ============================ */
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-btn,
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2.2rem;
+    border-radius: 9999px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: var(--trans);
+    position: relative;
+    overflow: hidden;
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 20px var(--primary-glow);
+}
+
+.cta-btn:hover,
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px var(--primary-glow);
+    background: #2979FF;
+}
+
+.cta-btn.secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+}
+
+.cta-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* ============================
+   SECTION TITLES
+   ============================ */
