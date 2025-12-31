@@ -758,3 +758,133 @@ main {
     transform: translateY(-6px);
     box-shadow: 0 12px 40px rgba(21, 101, 255, 0.2), inset 0 0 0 1px rgba(21, 101, 255, 0.3);
 }
+
+.facility-card:hover::before {
+    opacity: 1;
+}
+
+.facility-icon {
+    font-size: 3rem;
+    margin-bottom: 1.2rem;
+    display: block;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(21, 101, 255, 0.1);
+    border: 1px solid rgba(21, 101, 255, 0.2);
+    margin: 0 auto 1.2rem;
+    transition: var(--trans);
+}
+
+.facility-card:hover .facility-icon {
+    background: var(--primary);
+    box-shadow: 0 0 20px var(--primary-glow);
+    transform: scale(1.1);
+}
+
+.facility-card h3 {
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.facility-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* ============================
+   WHY CHOOSE US GRID
+   ============================ */
+.why-choose-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+    margin-top: 2rem;
+}
+
+.why-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: var(--trans);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+
+.why-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--gold));
+    transform: scaleX(0);
+    transition: transform 0.4s;
+    transform-origin: left;
+}
+
+.why-card:hover::before {
+    transform: scaleX(1);
+}
+
+.why-card:hover {
+    border-color: rgba(21, 101, 255, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(21, 101, 255, 0.15);
+}
+
+.why-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.8rem;
+    transition: transform 0.3s;
+}
+
+.why-card:hover .why-icon {
+    transform: scale(1.2) rotate(-5deg);
+}
+
+.why-card h4 {
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
+}
+
+.why-card p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+/* ============================
+   GALLERY
+   ============================ */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 3rem;
+}
+
+.gallery-item {
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+    border: 1px solid var(--card-border);
+    transition: var(--trans);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
