@@ -1408,3 +1408,133 @@ td.available:hover {
 .price {
     font-family: 'Outfit', sans-serif;
     font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), #00B4FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0.8rem 0;
+    filter: drop-shadow(0 0 8px var(--primary-glow));
+}
+
+/* ============================
+   COACHES GRID
+   ============================ */
+.coaches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.coach-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-xl);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: var(--trans);
+    backdrop-filter: blur(8px);
+}
+
+.coach-card:hover {
+    border-color: rgba(21, 101, 255, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(21, 101, 255, 0.15);
+}
+
+.coach-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 1rem;
+    border: 2px solid rgba(21, 101, 255, 0.3);
+    transition: var(--trans);
+}
+
+.coach-card:hover .coach-img {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.coach-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.coach-card h3 {
+    color: var(--text);
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.coach-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ============================
+   SOCIAL SECTION
+   ============================ */
+.social-section {
+    text-align: center;
+    padding: 3rem 0 2rem;
+}
+
+.social-section h3 {
+    color: var(--text);
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.8rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: var(--trans);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.social-btn.facebook {
+    background: #1877F2;
+    color: white;
+}
+
+.social-btn.facebook:hover {
+    background: #0C63D4;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(24, 119, 242, 0.4);
+}
+
+.social-btn.whatsapp {
+    background: #25D366;
+    color: white;
+}
+
+.social-btn.whatsapp:hover {
+    background: #1EBE5A;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+}
+
+/* ============================
+   PARTY NOTE
+   ============================ */
+.party-note {
+    background: rgba(0, 229, 160, 0.08);
+    border: 1.5px solid rgba(0, 229, 160, 0.3);
+    color: var(--green);
