@@ -1798,3 +1798,113 @@ footer::before {
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
     cursor: zoom-out;
+}
+
+.lightbox-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-overlay img {
+    max-width: 92vw;
+    max-height: 90vh;
+    border-radius: var(--radius);
+    transform: scale(0.9);
+    transition: transform 0.3s;
+}
+
+.lightbox-overlay.active img {
+    transform: scale(1);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    color: var(--text);
+    font-size: 2.2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    transition: var(--trans);
+}
+
+.lightbox-close:hover {
+    transform: rotate(90deg);
+    color: var(--primary);
+}
+
+/* ============================
+   ADMIN STYLES
+   ============================ */
+.bookings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+.see-more-container {
+    grid-column: 1/-1;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.hidden-review {
+    display: none !important;
+}
+
+.reveal-review {
+    animation: fadeUp 0.5s ease;
+}
+
+.perm-booking-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.booking-card {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-approve,
+.btn-reject {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.btn-approve {
+    background: rgba(0, 229, 160, 0.15);
+    color: var(--green);
+    border: 1px solid rgba(0, 229, 160, 0.3);
+}
+
+.btn-reject {
+    background: rgba(255, 77, 109, 0.15);
+    color: var(--red);
+    border: 1px solid rgba(255, 77, 109, 0.3);
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 3rem;
+    font-size: 1.1rem;
+}
+
+/* Login page */
+.login-input {
