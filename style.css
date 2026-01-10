@@ -1978,3 +1978,370 @@ footer::before {
         color: var(--text-muted);
     }
 
+    .nav-links a.active,
+    .nav-links a:hover {
+        color: var(--primary);
+    }
+
+    .mobile-bottom-nav {
+        display: block;
+    }
+
+    main {
+        margin-bottom: 70px;
+    }
+
+    .floating-whatsapp {
+        display: none;
+    }
+
+    .back-to-top {
+        bottom: 5.5rem;
+        right: 1rem;
+    }
+
+    .hero {
+        height: 70vh !important;
+        min-height: 380px;
+        border-radius: 0 0 1.5rem 1.5rem;
+    }
+
+    .hero-content {
+        padding: 1.5rem 1.25rem;
+        width: 100%;
+    }
+
+    .hero h1 {
+        background: none !important;
+        -webkit-text-fill-color: #fff !important;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+    }
+
+    h1 {
+        font-size: clamp(1.8rem, 6vw, 2.4rem);
+    }
+
+    h2 {
+        font-size: clamp(1.4rem, 5vw, 1.9rem);
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .cta-btn {
+        width: 100%;
+        text-align: center;
+        padding: 0.9rem;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .stat-number {
+        font-size: 2.2rem;
+    }
+
+    .facilities {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+
+    .gallery,
+    .membership-cards,
+    .coaches-grid,
+    .testimonials-grid,
+    .menu-images {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+
+    .why-choose-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .timetable-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -1rem;
+        border-radius: 0;
+    }
+
+    #timetable,
+    table {
+        min-width: 580px;
+    }
+
+    th,
+    td {
+        padding: 0.5rem 0.3rem;
+        font-size: 0.72rem;
+    }
+
+    .booking-form {
+        padding: 1.5rem 1rem;
+        margin: 1.5rem 0;
+    }
+
+    .bank-details {
+        padding: 1rem;
+        font-size: 0.88rem;
+    }
+
+    .section-title {
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
+        left: 0;
+        transform: none;
+        display: block;
+        width: 100%;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.7rem;
+    }
+
+    .menu-item {
+        padding: 0.9rem 1rem;
+    }
+
+    .social-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .social-btn {
+        width: 100%;
+        max-width: 260px;
+        justify-content: center;
+    }
+
+    .stats-section {
+        margin: 1.5rem 0;
+        padding: 2.5rem 1rem;
+    }
+
+    .review-form-wrapper {
+        padding: 2rem 1.2rem;
+        margin: 2rem 0;
+    }
+
+    .bookings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .action-buttons {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .btn-approve,
+    .btn-reject {
+        flex: 1;
+        min-width: 80px;
+        text-align: center;
+    }
+
+    footer {
+        padding: 3rem 0 1.5rem;
+    }
+}
+
+@media(max-width:480px) {
+    .why-choose-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .star-rating .star {
+        font-size: 1.6rem;
+    }
+
+    .booking-form {
+        padding: 1.2rem 0.8rem;
+    }
+
+    #timetable,
+    table {
+        min-width: 500px;
+    }
+}
+/* ============================================
+   VISUAL FLAIR ENHANCEMENTS  More Excitement
+   ============================================ */
+
+/* Glowing hero text with animated gradient */
+.hero h1 {
+    animation: heroGlow 4s ease-in-out infinite alternate;
+}
+@keyframes heroGlow {
+    from { filter: drop-shadow(0 0 20px rgba(21,101,255,0.3)); }
+    to   { filter: drop-shadow(0 0 50px rgba(21,101,255,0.7)); }
+}
+
+/* Neon scan-line effect on hero */
+.hero::after {
+    background: linear-gradient(180deg,
+        rgba(5,9,26,0.1) 0%,
+        rgba(5,9,26,0.6) 60%,
+        rgba(5,9,26,0.92) 100%),
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 3px,
+            rgba(21,101,255,0.015) 3px,
+            rgba(21,101,255,0.015) 4px
+        );
+}
+
+/* Gradient border glow on facility cards */
+.facility-card {
+    background: linear-gradient(var(--bg2), var(--bg2)) padding-box,
+                linear-gradient(135deg, rgba(21,101,255,0.3), rgba(245,200,66,0.15)) border-box;
+    border: 1px solid transparent;
+}
+.facility-card:hover {
+    background: linear-gradient(var(--bg2), var(--bg2)) padding-box,
+                linear-gradient(135deg, rgba(21,101,255,0.8), rgba(245,200,66,0.5)) border-box;
+    box-shadow: 0 0 30px rgba(21,101,255,0.25), 0 20px 50px rgba(0,0,0,0.4);
+}
+
+/* Pulsing dots decoration on section titles */
+.section-title {
+    position: relative;
+}
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -2rem;
+    font-size: 0.5rem;
+    color: var(--primary);
+    opacity: 0.6;
+    animation: dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse {
+    0%,100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+    50%      { opacity: 0.9; transform: translateX(-50%) scale(1.5); }
+}
+
+/* Animated gradient blob behind stats section */
+.stats-section {
+    position: relative;
+    overflow: hidden;
+}
+.stats-section::after {
+    content: '';
+    position: absolute;
+    top: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(21,101,255,0.15), transparent 70%);
+    animation: blobFloat 8s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes blobFloat {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%     { transform: translate(60px,30px) scale(1.1); }
+    66%     { transform: translate(-30px,60px) scale(0.95); }
+}
+
+/* Shimmer effect on price items */
+.price-item strong {
+    position: relative;
+    display: inline-block;
+}
+.price-item strong::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(245,200,66,0.3), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+}
+@keyframes shimmer {
+    0%   { left: -100%; }
+    50%  { left: 150%; }
+    100% { left: 150%; }
+}
+
+/* Neon underline on nav active link */
+.nav-links a.active::after {
+    width: 100%;
+    box-shadow: 0 0 8px var(--primary);
+}
+
+/* Glowing bottom nav active icon */
+.mobile-bottom-nav a.active {
+    background: rgba(21,101,255,0.12);
+    border-radius: 12px;
+}
+
+/* Animated gradient border on booking form */
+.booking-form {
+    background: linear-gradient(var(--bg2), var(--bg2)) padding-box,
+                linear-gradient(180deg, rgba(21,101,255,0.4), rgba(245,200,66,0.2)) border-box;
+    border: 1px solid transparent;
+}
+
+/* Card hover raise with dynamic shadow */
+.membership-card:hover,
+.why-card:hover,
+.coach-card:hover {
+    box-shadow: 0 20px 60px rgba(21,101,255,0.2), 0 0 0 1px rgba(21,101,255,0.3);
+}
+
+/* Glowing gallery item on hover */
+.gallery-item:hover {
+    box-shadow: 0 0 30px rgba(21,101,255,0.3);
+    border-color: rgba(21,101,255,0.5);
+}
+
+/* Menu item slide glow */
+.menu-item:hover {
+    box-shadow: 4px 0 20px rgba(21,101,255,0.15);
+}
+
+/* Neon "Book Now" CTA pulse on badminton page */
+.btn:hover {
+    box-shadow: 0 0 30px rgba(21,101,255,0.6), 0 8px 25px rgba(21,101,255,0.3);
+}
+
+/* ============================================
+   RESTAURANT MENU CATEGORY HEADER IMAGES
+   ============================================ */
+.menu-category-banner {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 0.8rem;
+    margin-bottom: 1.2rem;
+    opacity: 0.85;
+    transition: opacity 0.3s, transform 0.4s;
+    display: block;
+}
+.menu-category:hover .menu-category-banner {
+    opacity: 1;
+    transform: scale(1.02);
+}
+
+/* Taller banner on wider screens */
+@media (min-width: 768px) {
+    .menu-category-banner { height: 160px; }
+}
