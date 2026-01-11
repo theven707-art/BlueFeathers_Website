@@ -1,0 +1,220 @@
+﻿/* =================================================================
+   MENU CATEGORY — FOOD/DRINK BACKGROUND IMAGES
+   Each .menu-category uses --menu-img CSS variable set inline
+   ================================================================= */
+.menu-category {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.menu-category {
+    background: linear-gradient(135deg, rgba(5, 9, 26, 0.65), rgba(1, 4, 13, 0.95)), var(--menu-img, none) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-blend-mode: multiply;
+}
+
+.menu-category:hover {
+    background: linear-gradient(135deg, rgba(5, 9, 26, 0.5), rgba(1, 4, 13, 0.85)), var(--menu-img, none) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-blend-mode: multiply;
+}
+
+.menu-category h3,
+.menu-category .menu-grid,
+.menu-category .service-charge-note {
+    position: relative;
+    z-index: 1;
+}
+
+/* =================================================================
+   MEGA VISUAL OVERHAUL — Make the site stunning
+   ================================================================= */
+
+/* 1. Animated gradient hero title */
+.hero h1 {
+    background: linear-gradient(135deg, #ffffff 0%, #7CB9FF 40%, #F5C842 80%, #ffffff 100%);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: heroTitleGradient 6s ease-in-out infinite, heroGlow 4s ease-in-out infinite alternate;
+    filter: none;
+}
+
+@keyframes heroTitleGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes heroGlow {
+    from {
+        text-shadow: 0 0 30px rgba(21, 101, 255, 0.4);
+    }
+
+    to {
+        text-shadow: 0 0 60px rgba(21, 101, 255, 0.8), 0 0 100px rgba(124, 185, 255, 0.3);
+    }
+}
+
+/* Fix: hero h1 on mobile should stay white */
+@media(max-width:768px) {
+    .hero h1 {
+        background: none !important;
+        -webkit-text-fill-color: #fff !important;
+        animation: none !important;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
+    }
+}
+
+/* 2. Glowing motto */
+.motto {
+    font-size: 1.1rem;
+    color: var(--gold);
+    text-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgba(245, 200, 66, 0.3);
+    letter-spacing: 0.2em;
+    animation: mottoPulse 3s ease-in-out infinite;
+}
+
+@keyframes mottoPulse {
+
+    0%,
+    100% {
+        text-shadow: 0 0 15px rgba(245, 200, 66, 0.5);
+        letter-spacing: 0.2em;
+    }
+
+    50% {
+        text-shadow: 0 0 30px rgba(245, 200, 66, 0.8), 0 0 60px rgba(245, 200, 66, 0.3);
+        letter-spacing: 0.25em;
+    }
+}
+
+/* 3. Hero content — glowing glass card */
+.hero-content {
+    background: rgba(5, 9, 26, 0.35);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 2rem;
+    box-shadow: 0 0 80px rgba(21, 101, 255, 0.2), inset 0 0 60px rgba(21, 101, 255, 0.05);
+    padding: 3rem 2.5rem;
+    animation: heroCardIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes heroCardIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 4. Hero CTA buttons — neon glow pills */
+.cta-btn {
+    font-size: 1rem;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, #1565FF, #2979FF);
+    border: 1px solid rgba(124, 185, 255, 0.4);
+    box-shadow: 0 0 20px rgba(21, 101, 255, 0.5), 0 8px 25px rgba(21, 101, 255, 0.3);
+    transition: all 0.3s;
+}
+
+.cta-btn:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 0 40px rgba(21, 101, 255, 0.8), 0 15px 40px rgba(21, 101, 255, 0.4);
+}
+
+.cta-btn.secondary {
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    box-shadow: none;
+    color: white;
+}
+
+.cta-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(124, 185, 255, 0.7);
+    box-shadow: 0 0 20px rgba(124, 185, 255, 0.3);
+}
+
+/* 5. Section titles — cleaner glow */
+.section-title {
+    background: linear-gradient(135deg, #E8EEFF, #7CB9FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-title::after {
+    background: linear-gradient(90deg, var(--primary), var(--gold), var(--green));
+    height: 4px;
+    width: 70px;
+    box-shadow: 0 0 15px var(--primary-glow), 0 0 30px rgba(245, 200, 66, 0.2);
+}
+
+/* Remove the dot decoration that clutters titles */
+.section-title::before {
+    display: none;
+}
+
+/* 6. Stats section — vibrant and alive */
+.stats-section {
+    background:
+        linear-gradient(135deg, rgba(21, 101, 255, 0.15) 0%, rgba(245, 200, 66, 0.06) 50%, rgba(0, 229, 160, 0.08) 100%),
+        radial-gradient(ellipse at 30% 0%, rgba(21, 101, 255, 0.2), transparent 60%),
+        radial-gradient(ellipse at 70% 100%, rgba(0, 229, 160, 0.1), transparent 60%);
+    border: 1px solid rgba(21, 101, 255, 0.25);
+    border-radius: 2rem;
+}
+
+.stat-number {
+    font-size: 3.2rem;
+}
+
+.stat-item {
+    position: relative;
+}
+
+.stat-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0.6;
+}
+
+/* 7. Facility cards — dramatic glow border */
+.facility-card {
+    background: linear-gradient(145deg, rgba(13, 21, 48, 0.9), rgba(5, 9, 26, 0.95)) padding-box,
+        linear-gradient(135deg, rgba(21, 101, 255, 0.4), rgba(245, 200, 66, 0.15), rgba(0, 229, 160, 0.1)) border-box;
+    border: 1px solid transparent;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.facility-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    background: linear-gradient(145deg, rgba(13, 21, 48, 0.95), rgba(5, 9, 26, 1)) padding-box,
+        linear-gradient(135deg, rgba(21, 101, 255, 0.9), rgba(245, 200, 66, 0.5)) border-box;
+    box-shadow: 0 20px 60px rgba(21, 101, 255, 0.3), 0 0 0 1px rgba(21, 101, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* 8. Price item strong — animated gold shimmer */
