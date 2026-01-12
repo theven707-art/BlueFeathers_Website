@@ -1,4 +1,4 @@
-﻿/* =================================================================
+/* =================================================================
    MENU CATEGORY — FOOD/DRINK BACKGROUND IMAGES
    Each .menu-category uses --menu-img CSS variable set inline
    ================================================================= */
@@ -218,3 +218,290 @@
 }
 
 /* 8. Price item strong — animated gold shimmer */
+.price-item strong {
+    background: linear-gradient(90deg, #F5C842, #FFE066, #F5C842);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: goldShimmer 3s linear infinite;
+    font-size: 1.4rem;
+}
+
+@keyframes goldShimmer {
+    from {
+        background-position: 0% 50%;
+    }
+
+    to {
+        background-position: 200% 50%;
+    }
+}
+
+/* 9. Menu category — more dramatic styling */
+.menu-category {
+    border: 1px solid rgba(21, 101, 255, 0.3);
+    border-radius: 1.2rem;
+    transition: all 0.4s ease;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(245, 200, 66, 0.05);
+}
+
+.menu-category:hover {
+    border-color: rgba(245, 200, 66, 0.6);
+    box-shadow: 0 20px 60px rgba(21, 101, 255, 0.3), inset 0 0 60px rgba(21, 101, 255, 0.15);
+    transform: translateY(-5px);
+}
+
+.menu-category h3 {
+    color: var(--gold) !important;
+    text-shadow: 0 0 25px rgba(245, 200, 66, 0.7), 0 2px 5px rgba(0, 0, 0, 0.8);
+    font-size: 1.4rem;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid rgba(245, 200, 66, 0.3);
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+}
+
+/* 10. Menu items — sleek interactive rows */
+.menu-item {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s;
+}
+
+.menu-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #1565FF, #00E5A0, #F5C842);
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 0 15px var(--primary);
+}
+
+.menu-item:hover::before {
+    opacity: 1;
+}
+
+.menu-item:hover {
+    background: rgba(21, 101, 255, 0.07);
+    border-color: rgba(21, 101, 255, 0.2);
+    transform: translateX(6px);
+    box-shadow: -4px 0 20px rgba(21, 101, 255, 0.1);
+}
+
+/* 11. Membership cards — vivid with top accent strip */
+.membership-card {
+    background: linear-gradient(145deg, rgba(13, 21, 48, 0.9), rgba(5, 9, 26, 0.95));
+    border: 1px solid rgba(21, 101, 255, 0.2);
+}
+
+.membership-card:hover {
+    border-color: rgba(21, 101, 255, 0.6);
+    box-shadow: 0 20px 60px rgba(21, 101, 255, 0.25), 0 0 30px rgba(245, 200, 66, 0.05);
+    transform: translateY(-10px) scale(1.02);
+}
+
+.membership-card::before {
+    background: linear-gradient(90deg, var(--primary), var(--gold), var(--green));
+    opacity: 1 !important;
+    height: 3px;
+}
+
+/* 12. Testimonial cards — depth */
+.testimonial-card {
+    background: linear-gradient(145deg, rgba(13, 21, 48, 0.85), rgba(5, 9, 26, 0.9));
+    border: 1px solid rgba(21, 101, 255, 0.15);
+}
+
+.testimonial-card:hover {
+    border-color: rgba(21, 101, 255, 0.45);
+    box-shadow: 0 15px 50px rgba(21, 101, 255, 0.2);
+}
+
+/* 13. Footer — premium gradient top bar (thicker) */
+footer::before {
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--gold), var(--green), var(--primary));
+    background-size: 300%;
+    animation: gradientShift 4s linear infinite;
+    box-shadow: 0 0 20px rgba(21, 101, 255, 0.5);
+}
+
+/* 14. Floating WhatsApp — ring pulse */
+.floating-whatsapp::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 2px solid rgba(37, 211, 102, 0.5);
+    animation: ringPulse 2s ease-out infinite;
+}
+
+@keyframes ringPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}
+
+/* 15. Gallery item — neon border glow on hover */
+.gallery-item:hover {
+    box-shadow: 0 0 0 2px var(--primary), 0 0 40px rgba(21, 101, 255, 0.4);
+}
+
+/* 16. Timetable — more vibrant status colors */
+td.available {
+    color: #00E5A0;
+    background: rgba(0, 229, 160, 0.07);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+td.available:hover {
+    background: rgba(0, 229, 160, 0.18);
+    box-shadow: inset 0 0 0 1.5px var(--green), 0 0 12px rgba(0, 229, 160, 0.3);
+    border-radius: 8px;
+}
+
+td.booked {
+    color: #FF4D6D;
+    background: rgba(255, 77, 109, 0.08);
+}
+
+td.pending {
+    color: #F5C842;
+    background: rgba(245, 200, 66, 0.07);
+}
+
+/* 17. Body background — more dynamic mesh */
+.bg-animation {
+    background:
+        radial-gradient(ellipse at 15% 15%, rgba(21, 101, 255, 0.2) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 85%, rgba(245, 200, 66, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(0, 229, 160, 0.06) 0%, transparent 65%),
+        radial-gradient(ellipse at 80% 10%, rgba(124, 185, 255, 0.1) 0%, transparent 40%),
+        linear-gradient(180deg, #05091A 0%, #080D22 50%, #05091A 100%);
+}
+
+/* 18. Important rule banner — more dramatic */
+.important-rule {
+    background: linear-gradient(135deg, rgba(245, 200, 66, 0.15), rgba(245, 200, 66, 0.06));
+    border: 1.5px solid rgba(245, 200, 66, 0.5);
+    font-size: 1rem;
+    box-shadow: 0 0 30px rgba(245, 200, 66, 0.15), inset 0 0 30px rgba(245, 200, 66, 0.03);
+}
+
+/* 19. WHY cards — vibrant accent */
+.why-card {
+    background: linear-gradient(145deg, rgba(13, 21, 48, 0.85), rgba(5, 9, 26, 0.9));
+}
+
+.why-card h4 {
+    background: linear-gradient(135deg, #E8EEFF, #7CB9FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 20. Social buttons — more alive */
+.social-btn.facebook {
+    background: linear-gradient(135deg, #1877F2, #135FC0);
+    box-shadow: 0 4px 20px rgba(24, 119, 242, 0.4);
+}
+
+.social-btn.facebook:hover {
+    box-shadow: 0 8px 30px rgba(24, 119, 242, 0.6), 0 0 0 1px rgba(124, 185, 255, 0.3);
+}
+
+.social-btn.whatsapp {
+    background: linear-gradient(135deg, #25D366, #1AAD4C);
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+}
+
+.social-btn.whatsapp:hover {
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+}
+
+/* 21. Review form — vivid border */
+.review-form-wrapper {
+    background: linear-gradient(145deg, rgba(13, 21, 48, 0.9), rgba(5, 9, 26, 0.95));
+    border: 1px solid rgba(21, 101, 255, 0.2);
+    box-shadow: 0 0 60px rgba(21, 101, 255, 0.08);
+}
+
+/* 22. Back to top — more visible */
+.back-to-top {
+    background: linear-gradient(135deg, #1565FF, #2979FF);
+    box-shadow: 0 0 20px rgba(21, 101, 255, 0.6);
+}
+
+.back-to-top:hover {
+    box-shadow: 0 0 35px rgba(21, 101, 255, 0.9);
+    transform: translateY(-4px);
+}
+
+/* 23. Mobile bottom nav — glowing active */
+.mobile-bottom-nav {
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.05), 0 -8px 40px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-bottom-nav a.active {
+    background: linear-gradient(135deg, rgba(21, 101, 255, 0.2), rgba(21, 101, 255, 0.08));
+    box-shadow: inset 0 0 0 1px rgba(21, 101, 255, 0.3);
+    color: #7CB9FF;
+}
+
+.mobile-bottom-nav a.active .nav-icon {
+    filter: drop-shadow(0 0 8px rgba(21, 101, 255, 0.8));
+    animation: iconBounce 0.6s ease;
+}
+
+@keyframes iconBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+/* 24. Price list — gradient border */
+.price-list {
+    background: linear-gradient(145deg, rgba(13, 21, 48, 0.9), rgba(5, 9, 26, 0.95));
+    border: 1px solid rgba(21, 101, 255, 0.2);
+}
+
+.price-list:hover {
+    border-color: rgba(21, 101, 255, 0.5);
+    box-shadow: 0 10px 40px rgba(21, 101, 255, 0.15);
+}
+
+.price-list h3 {
+    background: linear-gradient(135deg, #E8EEFF, #7CB9FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 25. Bank details — standout */
+.bank-details {
+    background: linear-gradient(135deg, rgba(21, 101, 255, 0.12), rgba(21, 101, 255, 0.05));
+    border: 1.5px solid rgba(21, 101, 255, 0.35);
+    box-shadow: 0 0 30px rgba(21, 101, 255, 0.1);
+}
