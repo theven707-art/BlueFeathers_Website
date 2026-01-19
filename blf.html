@@ -190,3 +190,47 @@
                     <!-- Reviews will be loaded dynamically from Firebase -->
                     <div class="empty-state" style="grid-column: 1/-1;">Loading reviews...</div>
                 </div>
+
+                <!-- Submit a Review Form -->
+                <div class="review-form-wrapper reveal">
+                    <h3 class="review-form-title">⭐ Leave Your Review</h3>
+                    <p style="text-align:center; color:#666; margin-bottom:1.5rem;">Share your experience at Blue
+                        Feathers!</p>
+                    <div class="review-form">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" id="review-name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Rating</label>
+                            <div class="star-rating" id="star-rating">
+                                <span class="star" data-value="1">☆</span>
+                                <span class="star" data-value="2">☆</span>
+                                <span class="star" data-value="3">☆</span>
+                                <span class="star" data-value="4">☆</span>
+                                <span class="star" data-value="5">☆</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Review</label>
+                            <textarea id="review-text" rows="4" placeholder="Tell us about your experience..."
+                                style="width:100%; padding:1rem; border:2px solid #E2E8F0; border-radius:1rem; font-family:inherit; font-size:1rem; resize:vertical; background:#F8FAFC; transition: all 0.3s;"></textarea>
+                        </div>
+                        <button class="btn" onclick="submitReview()" style="width:100%;">Submit Review ✍️</button>
+                    </div>
+                </div>
+
+                <div class="social-section">
+                    <h3>Connect With Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1HknRXZ5cy/" target="_blank"
+                            class="social-btn facebook">
+                            <span>📘</span> Follow on Facebook
+                        </a>
+                        <a href="https://wa.me/94773215046" target="_blank" class="social-btn whatsapp">
+                            <span>📱</span> WhatsApp Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
