@@ -48,3 +48,51 @@ window.permanentBookings = {
         '7PM-8PM', '8PM-9PM', '9PM-10PM', '10PM-11PM', '11PM-12AM'
     ];
 
+    // Populate the time dropdown for auto-fill (Removed - Handled dynamically in script.js)
+    /*
+    const timeSelect = document.getElementById('booking-time');
+    if (timeSelect && timeSelect.options.length <= 1) {
+        timeSlots.forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t;
+            opt.textContent = t;
+            timeSelect.appendChild(opt);
+        });
+    }
+    */
+
+    timeSlots.forEach(time => {
+        const row = document.createElement('tr');
+        const timeCell = document.createElement('th');
+        timeCell.textContent = time;
+        row.appendChild(timeCell);
+
+        days.forEach(day => {
+            const cell = document.createElement('td');
+            const permanentName = window.permanentBookings[day] ? window.permanentBookings[day][time] : null;
+
+            if (permanentName) {
+                cell.textContent = permanentName; // Show name like 'ASANKA'
+                cell.className = 'booked';
+                cell.style.fontSize = '0.75rem'; // Make slightly smaller to fit
+            } else {
+                cell.textContent = 'AVAILABLE';
+                cell.className = 'available';
+                cell.onclick = () => {
+                    const dayInput = document.getElementById('booking-day');
+                    const timeInput = document.getElementById('booking-time');
+                    const bookingForm = document.querySelector('.booking-form');
+
+                    if (dayInput) dayInput.value = day;
+                    if (timeInput) timeInput.value = time;
+                    if (bookingForm) bookingForm.scrollIntoView({ behavior: 'smooth' });
+
+                    document.querySelectorAll('#timetable-body td.selected').forEach(c => c.classList.remove('selected'));
+                    cell.classList.add('selected');
+                };
+            }
+            row.appendChild(cell);
+        });
+        tbody.appendChild(row);
+    });
+})();
