@@ -128,3 +128,43 @@ window.addEventListener('load', () => {
     // --- Animated Counters ---
     const counters = document.querySelectorAll('.stat-number');
     if (counters.length > 0) {
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const finalValue = parseInt(target.getAttribute('data-count'), 10);
+                    const suffix = target.getAttribute('data-suffix') || '';
+                    const prefix = target.getAttribute('data-prefix') || '';
+                    if (isNaN(finalValue)) return;
+
+                    let current = 0;
+                    const increment = Math.max(1, Math.floor(finalValue / 60));
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= finalValue) {
+                            current = finalValue;
+                            clearInterval(timer);
+                        }
+                        target.textContent = prefix + current.toLocaleString() + suffix;
+                    }, 25);
+
+                    counterObserver.unobserve(target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => counterObserver.observe(counter));
+    }
+
+    // --- Lightbox for Gallery ---
+    const lightboxOverlay = document.querySelector('.lightbox-overlay');
+    const lightboxImg = lightboxOverlay ? lightboxOverlay.querySelector('img') : null;
+
+    document.querySelectorAll('.gallery-item img, .menu-images img').forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', () => {
+            if (lightboxOverlay && lightboxImg) {
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightboxOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
