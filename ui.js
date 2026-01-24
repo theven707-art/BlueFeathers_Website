@@ -96,3 +96,35 @@ window.permanentBookings = {
         tbody.appendChild(row);
     });
 })();
+
+// --- Preloader ---
+window.addEventListener('load', () => {
+    const preloader = document.querySelector('.preloader');
+    if (preloader) {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+            setTimeout(() => preloader.remove(), 600);
+        }, 800);
+    }
+
+    // --- Initialize Scroll Animations ---
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+        observer.observe(el);
+    });
+
+    // --- Animated Counters ---
+    const counters = document.querySelectorAll('.stat-number');
+    if (counters.length > 0) {
