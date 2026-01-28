@@ -96,3 +96,67 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="booking-form reveal">
+                    <h3 style="color: #1e3c72; margin-bottom: 2rem; text-align: center; font-size: 2rem;">Book Your
+                        Slot</h3>
+
+                    <div class="form-group">
+                        <label>Select Day:</label>
+                        <select id="booking-day">
+                            <option value="">Choose a day...</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Selected Slots:</label>
+                        <div id="selected-slots-container"
+                            style="border: 1px solid #ddd; padding: 10px; border-radius: 8px; background: #f9f9f9; min-height: 50px;">
+                            <p style="color: #666; font-size: 0.9rem; margin: 0;">No slots selected. Click on green
+                                slots in the timetable.</p>
+                        </div>
+                        <input type="hidden" id="booking-time">
+                        <!-- Kept for compatibility if needed, but logic will change -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Amount:</label>
+                        <div id="total-amount-display" style="font-size: 1.2rem; font-weight: bold; color: #1e3c72;">Rs.
+                            0</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Your Name:</label>
+                        <input type="text" id="booking-name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contact Number:</label>
+                        <input type="tel" id="booking-contact" placeholder="07XXXXXXXX" required>
+                    </div>
+
+                    <div class="bank-details">
+                        <h4>💳 Payment Details</h4>
+                        <p><strong>Bank:</strong> Commercial Bank</p>
+                        <p><strong>Account Number:</strong> 8028380685</p>
+                        <p><strong>Account Name:</strong> Theven Abraham</p>
+                        <p><strong>Amount:</strong> <span id="payment-amount-display">Rs. 0</span></p>
+                    </div>
+
+                    <button class="btn" onclick="prepareBooking()" style="width: 100%;">Proceed to Payment
+                        Confirmation</button>
+
+
+                    <p style="margin-top: 2rem; text-align: center; color: #666; line-height: 1.8;">
+                        <small><strong>Note:</strong> After making the payment, please send the payment proof via
+                            WhatsApp. Your booking will show as "PENDING" in the timetable until our administrator
+                            confirms it.</small>
+                    </p>
+                </div>
