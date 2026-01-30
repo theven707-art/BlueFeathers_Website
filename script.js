@@ -22,3 +22,19 @@ try {
     console.warn("⚠️ Firebase not available:", e.message);
 }
 
+// --- BADMINTON BOOKING LOGIC ---
+
+// --- BADMINTON BOOKING LOGIC ---
+
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const timeSlots = [
+    '6AM-7AM', '7AM-8AM', '8AM-9AM', '9AM-10AM', '10AM-11AM', '11AM-12PM', '12PM-1PM', '1PM-2PM',
+    '2PM-3PM', '3PM-4PM', '4PM-5PM', '5PM-6PM', '6PM-7PM',
+    '7PM-8PM', '8PM-9PM', '9PM-10PM', '10PM-11PM', '11PM-12AM'
+];
+const PRICE_PER_HOUR = 1000;
+
+// Global state for bookings
+let realtimeBookings = {};
+let selectedSlots = []; // Array of {day, time} objects
+
