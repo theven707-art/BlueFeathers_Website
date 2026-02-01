@@ -73,3 +73,58 @@ function renderTimetable() {
         const row = document.createElement('tr');
         const timeCell = document.createElement('th');
         timeCell.textContent = time;
+        row.appendChild(timeCell);
+
+        days.forEach(day => {
+            const cell = document.createElement('td');
+
+            // Priority 1: Permanent Booking
+            const permanentName = window.permanentBookings &&
+                window.permanentBookings[day] ?
+                window.permanentBookings[day][time] : null;
+
+            // Priority 2: User Booking
+            const booking = realtimeBookings[day] ? realtimeBookings[day][time] : null;
+
+            if (permanentName) {
+                cell.textContent = permanentName;
+                cell.className = 'booked';
+                cell.style.fontSize = '0.75rem';
+                cell.style.backgroundColor = '#fee2e2'; // Light red for permanent
+                cell.style.color = '#991b1b';
+            } else if (booking) {
+                if (booking.status === 'booked') {
+                    cell.textContent = 'BOOKED';
+                    cell.className = 'booked';
+                } else if (booking.status === 'pending') {
+                    cell.textContent = 'PENDING';
+                    cell.className = 'pending';
+                }
+            } else {
+                cell.textContent = 'AVAILABLE';
+                cell.className = 'available';
+
+                // Check if currently selected
+                const isSelected = selectedSlots.some(slot => slot.day === day && slot.time === time);
+                if (isSelected) {
+                    cell.classList.add('selected');
+                }
+
+                cell.onclick = () => toggleSlot(day, time);
+            }
+            row.appendChild(cell);
+        });
+        tbody.appendChild(row);
+    });
+
+    // Update summary UI instead of dropdown
+    updateBookingSummary();
+}
+
+function updateTimeDropdown() {
+    // Deprecated in favor of updateBookingSummary, keeping empty for safety
+}
+
+// Old updateTimeDropdown removed
+
+function selectSlot_OLD(day, time) {
