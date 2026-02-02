@@ -188,3 +188,53 @@ function initStarRating() {
 }
 
 window.submitReview = async function () {
+    const name = document.getElementById('review-name')?.value?.trim();
+    const text = document.getElementById('review-text')?.value?.trim();
+
+    if (!name || !text) { alert('Please fill in your name and review!'); return; }
+    if (selectedRating === 0) { alert('Please select a star rating!'); return; }
+
+    const reviewData = {
+        name: name,
+        rating: selectedRating,
+        text: text,
+        timestamp: new Date().toISOString(), // Use string for local storage compatibility
+        approved: true
+    };
+
+    // Save to LocalStorage immediately
+    try {
+        const localReviews = JSON.parse(localStorage.getItem('my_reviews') || '[]');
+        localReviews.unshift(reviewData); // Add to beginning
+        localStorage.setItem('my_reviews', JSON.stringify(localReviews));
+    } catch (e) { console.warn("Could not save to local storage", e); }
+
+    if (db) {
+        try {
+            await db.collection("reviews").add({
+                ...reviewData,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp() // Overwrite with server time for DB
+            });
+            alert('Thank you for your review! ⭐');
+            // The snapshot listener in loadReviews will handle the UI update normally, 
+            // but since we updated localStorage, we can also force a reload or just let the realtime listener work.
+            // For immediate feedback without waiting for listener:
+            addReviewToUI(name, selectedRating, text, 'Just now', false, true);
+        } catch (error) {
+            console.error("Error submitting review:", error);
+            alert('Thank you for your review! ⭐\n(Saved locally)');
+            addReviewToUI(name, selectedRating, text, 'Just now', false, true);
+        }
+    } else {
+        alert('Thank you for your review! ⭐');
+        addReviewToUI(name, selectedRating, text, 'Just now', false, true);
+    }
+
+    document.getElementById('review-name').value = '';
+    document.getElementById('review-text').value = '';
+    selectedRating = 0;
+    document.querySelectorAll('#star-rating .star').forEach(s => { s.textContent = '☆'; s.style.color = '#CBD5E1'; });
+};
+
+function loadReviews() {
+    const container = document.getElementById('reviews-container');
