@@ -128,3 +128,63 @@ function updateTimeDropdown() {
 // Old updateTimeDropdown removed
 
 function selectSlot_OLD(day, time) {
+    const dayInput = document.getElementById('booking-day');
+    const timeInput = document.getElementById('booking-time');
+    const bookingForm = document.querySelector('.booking-form');
+
+    if (dayInput) {
+        dayInput.value = day;
+        // Trigger the update manually so the time options are populated
+        updateTimeDropdown();
+    }
+
+    if (timeInput) {
+        timeInput.value = time;
+    }
+
+    if (bookingForm) bookingForm.scrollIntoView({ behavior: 'smooth' });
+
+    document.querySelectorAll('#timetable-body td.selected').forEach(c => c.classList.remove('selected'));
+    if (event && event.target) {
+        event.target.classList.add('selected');
+    }
+}
+
+// SUBMIT Booking to Firebase
+// function prepareBooking_OLD removed
+
+
+// --- REVIEWS SYSTEM ---
+
+let selectedRating = 0;
+
+function initStarRating() {
+    const container = document.getElementById('star-rating');
+    if (!container) return;
+
+    const stars = container.querySelectorAll('.star');
+    stars.forEach(star => {
+        star.addEventListener('mouseenter', () => {
+            const val = parseInt(star.getAttribute('data-value'));
+            stars.forEach(s => {
+                s.textContent = parseInt(s.getAttribute('data-value')) <= val ? '★' : '☆';
+                s.style.color = parseInt(s.getAttribute('data-value')) <= val ? '#FBBF24' : '#CBD5E1';
+            });
+        });
+        star.addEventListener('click', () => {
+            selectedRating = parseInt(star.getAttribute('data-value'));
+            stars.forEach(s => {
+                s.textContent = parseInt(s.getAttribute('data-value')) <= selectedRating ? '★' : '☆';
+                s.style.color = parseInt(s.getAttribute('data-value')) <= selectedRating ? '#FBBF24' : '#CBD5E1';
+            });
+        });
+        star.addEventListener('mouseleave', () => {
+            stars.forEach(s => {
+                s.textContent = parseInt(s.getAttribute('data-value')) <= selectedRating ? '★' : '☆';
+                s.style.color = parseInt(s.getAttribute('data-value')) <= selectedRating ? '#FBBF24' : '#CBD5E1';
+            });
+        });
+    });
+}
+
+window.submitReview = async function () {
