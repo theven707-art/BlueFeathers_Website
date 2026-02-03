@@ -238,3 +238,73 @@ window.submitReview = async function () {
 
 function loadReviews() {
     const container = document.getElementById('reviews-container');
+    if (!container) return;
+
+    // Load local reviews first
+    const localReviews = JSON.parse(localStorage.getItem('my_reviews') || '[]');
+
+    if (db) {
+        try {
+            db.collection("reviews")
+                .where("approved", "==", true)
+                .orderBy("timestamp", "desc")
+                .limit(20)
+                .onSnapshot((snapshot) => {
+                    container.innerHTML = '';
+                    let reviews = [];
+
+                    if (!snapshot.empty) {
+                        snapshot.forEach(doc => reviews.push(doc.data()));
+                    }
+
+                    // Merge local reviews if they are not already in the list (simple check by name/text)
+                    localReviews.forEach(localRev => {
+                        const exists = reviews.some(r => r.name === localRev.name && r.text === localRev.text);
+                        if (!exists) {
+                            // Local reviews might effectively be "newer" or "pending" if offline
+                            // We insert them at the top
+                            reviews.unshift(localRev);
+                        }
+                    });
+
+                    if (reviews.length === 0) {
+                        showDefaultReviews(container, localReviews);
+                    } else {
+                        renderReviews(container, reviews);
+                    }
+
+                }, (error) => {
+                    console.warn("Firestore reviews error:", error);
+                    showDefaultReviews(container, localReviews);
+                });
+        } catch (error) {
+            console.warn("Reviews loading error:", error);
+            showDefaultReviews(container, localReviews);
+        }
+    } else {
+        showDefaultReviews(container, localReviews);
+    }
+}
+
+function showDefaultReviews(container, localReviews = []) {
+    container.innerHTML = '';
+    const defaults = [
+        { name: "Kasun P.", rating: 5, text: "Amazing facilities! The badminton court is world-class and the booking system makes it so easy.", timestamp: { toDate: () => new Date() } }, // Mock timestamp
+        { name: "Dilani S.", rating: 5, text: "The gym equipment is top-notch and the monthly membership is great value. Best sports club in Moratuwa!", timestamp: { toDate: () => new Date() } },
+        { name: "Ruwan M.", rating: 5, text: "My kids love the swimming pool! Coach Tejaka is excellent. The restaurant food is delicious too.", timestamp: { toDate: () => new Date() } },
+        { name: "Sanjaya K.", rating: 4, text: "Great atmosphere and friendly staff. Highly recommend for families.", timestamp: { toDate: () => new Date() } },
+        { name: "Nimali P.", rating: 5, text: "Clean and well maintained. The online booking is a lifesaver.", timestamp: { toDate: () => new Date() } }
+    ];
+
+    // Combine local reviews with defaults
+    // Put local reviews first
+    const combined = [...localReviews, ...defaults];
+    renderReviews(container, combined);
+}
+
+function renderReviews(container, reviews) {
+    container.innerHTML = ''; // Clear current content
+
+    // Sort logic could go here if timestamps were consistent, but we trust the order for now (local first, then firestore/defaults)
+
+    // Render all reviews
