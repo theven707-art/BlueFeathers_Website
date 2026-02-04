@@ -308,3 +308,73 @@ function renderReviews(container, reviews) {
     // Sort logic could go here if timestamps were consistent, but we trust the order for now (local first, then firestore/defaults)
 
     // Render all reviews
+    reviews.forEach((data, index) => {
+        let dateStr = 'Recent';
+        if (data.timestamp && typeof data.timestamp.toDate === 'function') {
+            dateStr = data.timestamp.toDate().toLocaleDateString();
+        } else if (data.timestamp) {
+            // Handle simple date string or object from localStorage
+            dateStr = new Date(data.timestamp).toLocaleDateString();
+            if (dateStr === 'Invalid Date') dateStr = 'Recent';
+        }
+
+        // Show first 5, hide rest
+        addReviewToUI(data.name, data.rating, data.text, dateStr, index >= 5, false);
+    });
+
+    // Add Toggle Button if needed
+    if (reviews.length > 5) {
+        const btnContainer = document.createElement('div');
+        btnContainer.className = 'see-more-container';
+        // Check if we are currently expanded or not (re-rendering preserves state logic if we wanted, but here we reset to collapsed on refresh)
+        // Ideally we'd check if any .hidden-review exists, but we just rendered them.
+        btnContainer.innerHTML = `<button class="btn secondary" id="toggle-reviews-btn" onclick="toggleReviews()">See More Reviews ⬇️</button>`;
+        container.appendChild(btnContainer);
+    }
+}
+
+window.toggleReviews = function () {
+    const btn = document.getElementById('toggle-reviews-btn');
+    const hiddenReviews = document.querySelectorAll('.hidden-review');
+    const revealedReviews = document.querySelectorAll('.reveal-review');
+
+    if (btn.innerText.includes('See More')) {
+        // Expand
+        hiddenReviews.forEach(card => {
+            card.classList.remove('hidden-review');
+            card.classList.add('reveal-review');
+            card.style.display = 'block'; // Ensure visibility override
+        });
+        btn.innerHTML = 'See Less Reviews ⬆️';
+    } else {
+        // Collapse
+        // We need to identify which ones were supposed to be hidden. 
+        // Based on our render logic, the items at index >= 5 should be hidden.
+        // Let's grab all cards.
+        const allCards = document.querySelectorAll('.testimonial-card');
+        allCards.forEach((card, index) => {
+            if (index >= 5) {
+                card.classList.add('hidden-review');
+                card.classList.remove('reveal-review');
+                card.style.display = ''; // Revert to CSS class handling
+            }
+        });
+        btn.innerHTML = 'See More Reviews ⬇️';
+
+        // Optional: Scroll back to top of reviews or button
+        // btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+};
+
+function addReviewToUI(name, rating, text, date, isHidden = false, insertAtTop = false) {
+    const container = document.getElementById('reviews-container');
+    if (!container) return;
+
+    const emptyState = container.querySelector('.empty-state');
+    if (emptyState) emptyState.remove();
+
+    const starsStr = '⭐'.repeat(rating);
+    const card = document.createElement('div');
+    card.className = `testimonial-card ${isHidden ? 'hidden-review' : ''}`;
+    card.innerHTML = `
+        <div class="testimonial-stars">${starsStr}</div>
