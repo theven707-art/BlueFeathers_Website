@@ -378,3 +378,43 @@ function addReviewToUI(name, rating, text, date, isHidden = false, insertAtTop =
     card.className = `testimonial-card ${isHidden ? 'hidden-review' : ''}`;
     card.innerHTML = `
         <div class="testimonial-stars">${starsStr}</div>
+        <p class="testimonial-text">${escapeHtml(text)}</p>
+        <p class="testimonial-author">— ${escapeHtml(name)}</p>
+        <p class="testimonial-date">${date}</p>
+    `;
+
+    if (insertAtTop) {
+        // Insert after the grid starts, but check if there are any existing cards
+        container.insertBefore(card, container.firstChild);
+    } else {
+        // If we are appending, we need to be careful about the "See More" button which might be at the end.
+        // But renderReviews clears the container first, so 'append' is fine there.
+        // This function is also called by submitReview fallback.
+
+        // If there is a "See More" button, we probably want to insert BEFORE it if we are just "appending" in a flow?
+        // But for submitReview fallback, we will use insertAtTop = true.
+        container.appendChild(card);
+    }
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+
+/**
+ * Parses a time string like "3PM-4PM" or "9AM-10AM" and returns
+ * { startHour: number, endHour: number } in 24h format.
+ */
+function parseTimeSlot(timeStr) {
+    const parts = timeStr.split('-');
+    function toHour24(s) {
+        s = s.trim();
+        if (s === '12AM') return 0;
+        if (s === '12PM') return 12;
+        const num = parseInt(s);
+        if (s.includes('PM') && num !== 12) return num + 12;
+        if (s.includes('AM') && num === 12) return 0;
+        return num;
