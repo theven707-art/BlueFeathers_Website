@@ -418,3 +418,73 @@ function parseTimeSlot(timeStr) {
         if (s.includes('PM') && num !== 12) return num + 12;
         if (s.includes('AM') && num === 12) return 0;
         return num;
+    }
+    return {
+        startHour: toHour24(parts[0]),
+        endHour: toHour24(parts[1])
+    };
+}
+
+/**
+ * Auto-deletes any booking whose time slot has already ended.
+ * Uses scheduledTimestamp to compute the actual end time.
+ * Falls back to check if legacy bookings are >7 days old.
+ */
+async function cleanupOldBookings() {
+    if (!db) return;
+
+    const now = new Date();
+    console.log(`🧹 [${now.toLocaleTimeString()}] Checking for expired bookings...`);
+
+    try {
+        const snapshot = await db.collection('bookings').get();
+        if (snapshot.empty) return;
+
+        const batch = db.batch();
+        let deleteCount = 0;
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            let isExpired = false;
+
+            if (data.scheduledTimestamp) {
+                // Priority 1: Use scheduledTimestamp
+                try {
+                    const scheduledDate = data.scheduledTimestamp.toDate();
+
+                    // The scheduledDate is the START time of the booking.
+                    // We parse the duration or end time from the 'time' string.
+                    let durationHours = 1; // Default to 1 hour
+                    if (data.time) {
+                        try {
+                            const { startHour, endHour } = parseTimeSlot(data.time);
+                            let duration = endHour - startHour;
+                            if (duration < 0) duration += 24; // Handle cross-midnight
+                            if (duration > 0) durationHours = duration;
+                        } catch (e) {
+                            console.warn("Could not parse time for duration:", data.time);
+                        }
+                    }
+
+                    const endTime = new Date(scheduledDate.getTime() + durationHours * 60 * 60 * 1000);
+
+                    if (now >= endTime) {
+                        isExpired = true;
+                        console.log(`🗑️ Expired (Scheduled): ${data.day} ${data.time} (ended ${endTime.toLocaleString()})`);
+                    }
+                } catch (err) {
+                    console.warn("Error parsing scheduledTimestamp:", err);
+                }
+            } else if (data.timestamp) {
+                // Priority 2: Legacy bookings. Delete if older than 7 days
+                try {
+                    let createdDate;
+                    if (typeof data.timestamp.toDate === 'function') {
+                        createdDate = data.timestamp.toDate();
+                    } else if (typeof data.timestamp === 'string') {
+                        createdDate = new Date(data.timestamp);
+                    }
+
+                    if (createdDate && !isNaN(createdDate.getTime())) {
+                        const ageInDays = (now - createdDate) / (1000 * 60 * 60 * 24);
+                        if (ageInDays > 7) {
