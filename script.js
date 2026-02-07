@@ -488,3 +488,73 @@ async function cleanupOldBookings() {
                     if (createdDate && !isNaN(createdDate.getTime())) {
                         const ageInDays = (now - createdDate) / (1000 * 60 * 60 * 24);
                         if (ageInDays > 7) {
+                            isExpired = true;
+                            console.log(`🗑️ Expired (Legacy >7 days): ${data.day} ${data.time}`);
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Error checking legacy timestamp:", err);
+                }
+            } else {
+                console.warn(`Booking without timestamps found, skipping auto-delete:`, data);
+            }
+
+            if (isExpired) {
+                batch.delete(doc.ref);
+                deleteCount++;
+            }
+        });
+
+        if (deleteCount > 0) {
+            await batch.commit();
+            console.log(`✅ Cleaned up ${deleteCount} expired booking(s).`);
+            // Refresh timetable after a short delay
+            setTimeout(populateTimetableFirebase, 800);
+        } else {
+            console.log('✅ No expired bookings found.');
+        }
+
+    } catch (e) {
+        console.warn('Cleanup check failed:', e);
+    }
+}
+
+// --- Initialize on load ---
+window.addEventListener('load', () => {
+    populateTimetableFirebase();
+    initStarRating();
+    loadReviews();
+
+    // Run cleanup 3 seconds after load (allow Firebase to connect first)
+    setTimeout(cleanupOldBookings, 3000);
+
+    // Then run every 60 seconds so slots expire in real-time without reload
+    setInterval(cleanupOldBookings, 60 * 1000);
+});
+
+// --- MULTI-SLOT FUNCTIONS ---
+
+function toggleSlot(day, time) {
+
+    const dayInput = document.getElementById('booking-day');
+    const bookingForm = document.querySelector('.booking-form');
+
+    // 1. Check if we are switching days (Clear previous if different day)
+    if (selectedSlots.length > 0 && selectedSlots[0].day !== day) {
+        if (confirm("You can only book slots for one day at a time. Clear previous selection?")) {
+            selectedSlots = [];
+        } else {
+            return;
+        }
+    }
+
+    // 2. Toggle Selection
+    const existingIndex = selectedSlots.findIndex(slot => slot.day === day && slot.time === time);
+    if (existingIndex > -1) {
+        // Deselect
+        selectedSlots.splice(existingIndex, 1);
+    } else {
+        // Select
+        selectedSlots.push({ day, time });
+    }
+
