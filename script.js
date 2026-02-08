@@ -558,3 +558,53 @@ function toggleSlot(day, time) {
         selectedSlots.push({ day, time });
     }
 
+    // 3. Update State & UI
+    if (selectedSlots.length > 0) {
+        // Auto-set the day dropdown
+        if (dayInput) dayInput.value = day;
+    } else {
+        if (dayInput) dayInput.value = "";
+    }
+
+    renderTimetable(); // Re-render to show highlights
+    updateBookingSummary();
+
+    if (selectedSlots.length > 0 && bookingForm) {
+        // optional: bookingForm.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function updateBookingSummary() {
+    const container = document.getElementById('selected-slots-container');
+    const totalDisplay = document.getElementById('total-amount-display');
+    const bookingTimeInput = document.getElementById('booking-time');
+
+    if (!container || !totalDisplay) return;
+
+    if (selectedSlots.length === 0) {
+        container.innerHTML = '<p style="color: #666; font-size: 0.9rem; margin: 0;">No slots selected. Click on green slots in the timetable.</p>';
+        totalDisplay.textContent = 'Rs. 0';
+
+        // Update Payment Details Section Amount
+        const paymentAmountDisplay = document.getElementById('payment-amount-display');
+        if (paymentAmountDisplay) {
+            paymentAmountDisplay.textContent = 'Rs. 0';
+        }
+
+        if (bookingTimeInput) bookingTimeInput.value = "";
+        return;
+    }
+
+    // Create Chips/Tags for slots
+    // Sort slots by time index
+    selectedSlots.sort((a, b) => timeSlots.indexOf(a.time) - timeSlots.indexOf(b.time));
+
+    let html = '<div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">';
+    selectedSlots.forEach(slot => {
+        html += `<span style="background: #e0f2fe; color: #0369a1; padding: 4px 12px; border-radius: 16px; font-size: 0.9rem; border: 1px solid #bae6fd;">${slot.time}</span>`;
+    });
+    html += '</div>';
+
+    container.innerHTML = html;
+
+    // Update Total Price
