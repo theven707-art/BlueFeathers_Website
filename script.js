@@ -608,3 +608,145 @@ function updateBookingSummary() {
     container.innerHTML = html;
 
     // Update Total Price
+    const total = selectedSlots.length * PRICE_PER_HOUR;
+    totalDisplay.textContent = `Rs. ${total}`;
+
+    // Update Payment Details Section Amount
+    const paymentAmountDisplay = document.getElementById('payment-amount-display');
+    if (paymentAmountDisplay) {
+        paymentAmountDisplay.textContent = `Rs. ${total}`;
+    }
+
+    // Update hidden input (comma separated) for potential form usage
+    if (bookingTimeInput) bookingTimeInput.value = selectedSlots.map(s => s.time).join(', ');
+}
+
+// Wrapper for backward compatibility or direct calls
+function selectSlot(day, time) {
+    toggleSlot(day, time);
+}
+
+// NEW SUBMIT Booking to Firebase (Batch)
+window.prepareBooking = async function () {
+    const day = document.getElementById('booking-day')?.value;
+    const name = document.getElementById('booking-name')?.value;
+    const contact = document.getElementById('booking-contact')?.value;
+
+    if (selectedSlots.length === 0) {
+        alert('Please select at least one time slot!');
+        return;
+    }
+    if (!name || !contact) {
+        alert('Please fill in your name and contact number!');
+        return;
+    }
+
+    // Double check day consistency
+    const bookingDay = selectedSlots[0].day;
+
+    const totalAmount = selectedSlots.length * PRICE_PER_HOUR;
+    const timesString = selectedSlots.map(s => s.time).join(', ');
+
+    // Build WhatsApp message
+    const message = `🏸 *Badminton Court Booking Request*
+
+📅 Day: ${bookingDay}
+🕐 Time(s): ${timesString}
+👤 Name: ${name}
+📱 Contact: ${contact}
+
+💰 Total Amount: Rs. ${totalAmount}
+🏦 Bank: Commercial Bank
+💳 Account: 8028380685
+👤 Name: Theven Abraham
+
+*Booking Status: PENDING*
+Please verify payment to Confirm.`;
+    const whatsappUrl = `https://wa.me/94740645775?text=${encodeURIComponent(message)}`;
+
+    if (db) {
+        try {
+            // Batch write for atomicity (or just promise.all)
+            const batch = db.batch();
+
+            // Map Day String to Index (0-6)
+            const dayMap = {
+                'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3,
+                'Friday': 4, 'Saturday': 5, 'Sunday': 6
+            };
+
+            const now = new Date();
+            const currentDayIndex = now.getDay() === 0 ? 6 : now.getDay() - 1; // Mon=0, Sun=6
+            const currentHour = now.getHours();
+
+            selectedSlots.forEach(slot => {
+                const docRef = db.collection('bookings').doc(); // Auto-ID
+
+                // Calculate Scheduled Date
+                // This ensures that if we book a "Past" slot for today, it counts as "Next Week"
+                let targetDayIndex = dayMap[slot.day];
+                let diff = targetDayIndex - currentDayIndex;
+
+                // Parse Start Hour to check if it's past
+                // "9AM-10AM" -> 9
+                const timeParts = slot.time.split('-');
+                const startTimeStr = timeParts[0];
+                let startHour = 0;
+                if (startTimeStr.includes('AM')) {
+                    startHour = parseInt(startTimeStr.replace('AM', ''));
+                    if (startHour === 12) startHour = 0;
+                } else if (startTimeStr.includes('PM')) {
+                    startHour = parseInt(startTimeStr.replace('PM', ''));
+                    if (startHour !== 12) startHour += 12;
+                }
+                if (startTimeStr === "12AM") startHour = 0;
+
+                // Logic:
+                // If diff < 0 (e.g. Today Wed, Target Mon) -> Next Week (+7)
+                // If diff == 0 (Today) AND Hour is Past -> Next Week (+7)
+                // If diff > 0 (e.g. Today Mon, Target Wed) -> This Week
+
+                if (diff < 0) {
+                    diff += 7;
+                } else if (diff === 0) {
+                    if (currentHour >= startHour) {
+                        diff += 7; // It's past time for today, so book for next week
+                    }
+                }
+
+                const scheduledDate = new Date(now);
+                scheduledDate.setDate(now.getDate() + diff);
+                scheduledDate.setHours(startHour, 0, 0, 0); // Set to slot start time
+
+                batch.set(docRef, {
+                    day: slot.day,
+                    time: slot.time,
+                    name: name,
+                    contact: contact,
+                    status: 'pending',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    scheduledTimestamp: firebase.firestore.Timestamp.fromDate(scheduledDate)
+                });
+            });
+
+            await batch.commit();
+
+            if (confirm(`Booking Request Submitted! ✅\n\n${selectedSlots.length} slot(s) marked as PENDING.\nTotal: Rs. ${totalAmount}\n\nPlease click OK to open WhatsApp and send payment proof.`)) {
+                window.open(whatsappUrl, '_blank');
+                // Clear selection
+                selectedSlots = [];
+                updateBookingSummary();
+                document.getElementById('booking-name').value = '';
+                document.getElementById('booking-contact').value = '';
+            }
+        } catch (error) {
+            console.error("Error adding bookings:", error);
+            alert("Error submitting booking. Please try again.");
+        }
+    } else {
+        // Fallback without Firebase
+        if (confirm(`Booking Request Submitted! ✅\n\n(Firebase Offline Mode)\nTotal: Rs. ${totalAmount}\n\nPlease click OK to open WhatsApp.`)) {
+            window.open(whatsappUrl, '_blank');
+        }
+    }
+};
