@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym & Fitness - Blue Feathers Sports Club</title>
+    <meta name="description"
+        content="Join our modern gym with latest equipment. Flexible membership plans starting at Rs. 400. Blue Feathers Sports Club, Moratuwa.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="enhancements.css">
+    <link rel="icon" href="logo.jpg" type="image/jpeg">
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-logo"><img src="logo.jpg" alt="Logo" class="preloader-logo-img"></div>
+        <div class="preloader-text">Blue Feathers</div>
+        <div class="preloader-bar"></div>
+    </div>
+
+    <div class="bg-animation">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.jpg" alt="Logo" class="logo-img">
+                <span>BLUE FEATHERS</span>
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="blf.html">Home</a></li>
+                <li><a href="badminton.html">Badminton</a></li>
+                <li><a href="gym.html" class="active">Gym</a></li>
+                <li><a href="restaurant.html">Restaurant & Bar</a></li>
+                <li><a href="pool.html">Pool</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <ul>
+            <li><a href="blf.html"><span class="nav-icon">🏠</span>Home</a></li>
+            <li><a href="badminton.html"><span class="nav-icon">🏸</span>Badminton</a></li>
+            <li><a href="gym.html" class="active"><span class="nav-icon">💪</span>Gym</a></li>
+            <li><a href="restaurant.html"><span class="nav-icon">🍽️</span>Restaurant</a></li>
+            <li><a href="pool.html"><span class="nav-icon">🏊</span>Pool</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="hero"
+            style="--hero-bg: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920'); height: 400px;">
+            <div class="hero-content">
+                <h1>💪 Gym & Fitness Center</h1>
+                <p style="font-size: 1.5rem; margin-top: 1rem;">Transform Your Body, Transform Your Life</p>
+            </div>
+        </div>
+
+        <section class="about-section reveal">
+            <div class="container">
+                <h2 class="section-title">Our Gym</h2>
+                <div class="about-content">
+                    <p>Experience fitness at its finest with our state-of-the-art gym facilities. Equipped with
+                        modern cardio machines, free weights, strength training equipment, and functional training
+                        areas, Blue Feathers Gym caters to all fitness levels. Our spacious, air-conditioned
+                        facility provides the perfect environment to achieve your fitness goals with professional
+                        guidance available.</p>
+                </div>
+
+                <h2 class="section-title reveal" style="margin-top: 3rem;">Gym Gallery</h2>
+                <div class="gallery reveal">
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600" alt="Gym">
+                        <div class="gallery-overlay">
+                            <h4>Cardio Zone</h4>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600" alt="Gym">
+                        <div class="gallery-overlay">
+                            <h4>Weight Training Area</h4>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600" alt="Gym">
+                        <div class="gallery-overlay">
+                            <h4>Fitness Equipment</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="section-title reveal" style="margin-top: 3rem;">Membership Plans</h2>
+                <div class="membership-cards reveal">
+                    <div class="membership-card">
+                        <h3>Daily Pass</h3>
+                        <div class="price">Rs. 500</div>
+                        <p>Perfect for occasional visits and trying out our facilities</p>
+                    </div>
+                    <div class="membership-card">
+                        <h3>Monthly</h3>
+                        <div class="price">Rs. 2,000</div>
+                        <p>Best value for regular training and consistent fitness routine</p>
+                    </div>
+                    <div class="membership-card">
+                        <h3>6 Months</h3>
+                        <div class="price">Rs. 5,000</div>
+                        <p>Commit to your fitness journey and see real results</p>
+                    </div>
+                    <div class="membership-card">
+                        <h3>Admission Fee</h3>
+                        <div class="price">Rs. 3,000</div>
+                        <p>One-time registration fee (required for all new members)</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="https://wa.me/94740645775" class="btn" style="font-size: 1.2rem; padding: 1.5rem 3rem;">💪
+                        Contact Us to Join Today</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <h2 style="margin-bottom: 1.5rem;">🪶 Blue Feathers Sports Club</h2>
+            <div class="contact-info">
+                <p><strong>📍 Address:</strong> 16/1, 1st Lane, Bandaranayake Mawatha, Kattubadda, Moratuwa</p>
+                <p><strong>📱 Phone:</strong> <a href="tel:+94740645775">074 064 5775</a></p>
+                <p><strong>📧 Email:</strong> <a href="mailto:bluefsp@gmail.com">bluefsp@gmail.com</a></p>
+                <p><strong>📘 Facebook:</strong> <a href="https://www.facebook.com/share/1HknRXZ5cy/"
+                        target="_blank">Visit our page</a></p>
+                <p><strong>💬 WhatsApp:</strong> <a href="https://wa.me/94740645775" target="_blank">Chat with us</a>
+                </p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Blue Feathers Sports Park. All Rights Reserved.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">"Health is Wealth" 💪🏸🏊🍽️</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/94740645775" target="_blank" class="floating-whatsapp" title="Chat on WhatsApp">💬</a>
+    <button class="back-to-top" title="Back to top">↑</button>
+    <div class="lightbox-overlay">
+        <button class="lightbox-close">&times;</button>
+        <img src="" alt="Gallery Preview">
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="ui.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
