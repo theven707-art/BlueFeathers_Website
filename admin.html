@@ -168,3 +168,143 @@
             font-weight: 700;
             transition: all 0.2s;
             font-family: inherit;
+            font-size: 0.88rem;
+        }
+
+        .btn-approve:hover {
+            background: rgba(0, 229, 160, 0.22);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 229, 160, 0.2);
+        }
+
+        .btn-reject {
+            background: rgba(255, 77, 109, 0.1);
+            color: #FF4D6D;
+            border: 1.5px solid rgba(255, 77, 109, 0.3);
+            padding: 0.55rem 1.4rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 0.88rem;
+        }
+
+        .btn-reject:hover {
+            background: rgba(255, 77, 109, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.2);
+        }
+
+        /* Permanent bookings */
+        .perm-booking-form label {
+            color: #8896B3;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .perm-booking-form select,
+        .perm-booking-form input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: #E8EEFF;
+            box-sizing: border-box;
+        }
+
+        .perm-booking-form select option {
+            background: #0D1530;
+            color: #E8EEFF;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #8896B3;
+            font-size: 1.1rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-logo"><img src="logo.jpg" alt="Logo" class="preloader-logo-img"></div>
+        <div class="preloader-text">Admin Dashboard</div>
+        <div class="preloader-bar"></div>
+    </div>
+
+    <div class="bg-animation">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="admin-login-overlay">
+        <div class="login-box">
+            <h2>🔒 Admin Access</h2>
+            <p style="margin-bottom: 1.5rem; color: #64748b;">Please verify your identity</p>
+            <input type="password" id="admin-password" class="login-input" placeholder="Enter Admin Password">
+            <button class="btn-approve" style="width:100%; font-size: 1.1rem;" onclick="checkPassword()">Login</button>
+            <p id="login-error" style="color:red; margin-top:1rem; display:none;">Incorrect Password!</p>
+        </div>
+    </div>
+
+    <!-- Protected Content -->
+    <div id="protected-content" class="hidden">
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="logo.jpg" alt="Logo" class="logo-img">
+                    <span>BLUE FEATHERS (ADMIN)</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="blf.html">Back to Site</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="admin-header">
+            <div class="dashboard-container">
+                <h1>Admin Dashboard</h1>
+                <p>Manage bookings and schedules</p>
+            </div>
+        </div>
+
+        <main class="dashboard-container">
+            <h2 class="section-title reveal">Pending Approvals</h2>
+            <div id="pending-bookings-list" class="bookings-grid">
+                <div class="empty-state">Loading pending bookings...</div>
+            </div>
+
+            <div class="section-header" style="margin-top: 4rem;">
+                <h2>✅ Confirmed Bookings</h2>
+                <p>Active bookings currently blocking slots. <br><small>(Note: "Permanent Bookings" are in
+                        <code>ui.js</code> and cannot be deleted here)</small></p>
+            </div>
+
+            <div id="confirmed-bookings-list" class="bookings-grid">
+                <div class="empty-state">Loading confirmed bookings...</div>
+            </div>
+
+            <div class="section-header"
+                style="margin-top: 4rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 2rem;">
+                <h2>🔄 Permanent Bookings Manager</h2>
+                <p>Manage recurring slots (e.g. Coaching, Club Practice). Updates reflect immediately.</p>
+            </div>
+
+            <div class="booking-card" style="display:block; border-left: 4px solid #1565FF;">
