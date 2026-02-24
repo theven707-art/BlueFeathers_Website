@@ -308,3 +308,143 @@
             </div>
 
             <div class="booking-card" style="display:block; border-left: 4px solid #1565FF;">
+                <div class="perm-booking-form">
+                    <div>
+                        <label><strong>Day</strong></label>
+                        <select id="perm-day" class="login-input" style="margin-bottom:0">
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label><strong>Time Slot</strong></label>
+                        <select id="perm-time" class="login-input" style="margin-bottom:0">
+                            <!-- Filled dynamically? Or hardcoded matching script.js -->
+                            <option value="6AM-7AM">6AM-7AM</option>
+                            <option value="7AM-8AM">7AM-8AM</option>
+                            <option value="8AM-9AM">8AM-9AM</option>
+                            <option value="9AM-10AM">9AM-10AM</option>
+                            <option value="10AM-11AM">10AM-11AM</option>
+                            <option value="11AM-12PM">11AM-12PM</option>
+                            <option value="12PM-1PM">12PM-1PM</option>
+                            <option value="1PM-2PM">1PM-2PM</option>
+                            <option value="2PM-3PM">2PM-3PM</option>
+                            <option value="3PM-4PM">3PM-4PM</option>
+                            <option value="4PM-5PM">4PM-5PM</option>
+                            <option value="5PM-6PM">5PM-6PM</option>
+                            <option value="6PM-7PM">6PM-7PM</option>
+                            <option value="7PM-8PM">7PM-8PM</option>
+                            <option value="8PM-9PM">8PM-9PM</option>
+                            <option value="9PM-10PM">9PM-10PM</option>
+                            <option value="10PM-11PM">10PM-11PM</option>
+                            <option value="11PM-12AM">11PM-12AM</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label><strong>Name</strong> <small>(Empty to delete)</small></label>
+                        <input type="text" id="perm-name" class="login-input" style="margin-bottom:0"
+                            placeholder="e.g. COACHING">
+                    </div>
+                    <div style="display:flex; align-items:end;">
+                        <button class="btn-approve" onclick="updatePermanentBooking()"
+                            style="background-color: #3B82F6; width:100%">💾 Update Slot</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List of existing permanent bookings -->
+            <div id="permanent-list" class="bookings-grid">
+                <div class="empty-state">Loading permanent schedule...</div>
+            </div>
+        </main>
+    </div><!-- End protected-content -->
+
+    <!-- Firebase Compat SDKs (work on file:// protocol) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="ui.js"></script>
+    <script>
+        let isAuthenticated = false;
+
+        // Password Check
+        window.checkPassword = function () {
+            const password = document.getElementById('admin-password').value;
+            const errorMsg = document.getElementById('login-error');
+            const overlay = document.getElementById('login-overlay');
+            const content = document.getElementById('protected-content');
+
+            // Simple Client-side Password Check
+            if (password === 'blue') {
+                isAuthenticated = true; // Grant access
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    content.classList.remove('hidden');
+                }, 500);
+            } else {
+                errorMsg.style.display = 'block';
+                // Shake effect
+                const box = document.querySelector('.login-box');
+                box.style.transform = 'translateX(10px)';
+                setTimeout(() => box.style.transform = 'translateX(-10px)', 100);
+                setTimeout(() => box.style.transform = 'translateX(0)', 200);
+            }
+        };
+
+
+
+        // Allow Enter key to submit
+        document.addEventListener('DOMContentLoaded', () => {
+            const pwdInput = document.getElementById('admin-password');
+            if (pwdInput) {
+                pwdInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') checkPassword();
+                });
+                pwdInput.focus();
+            }
+        });
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCd6VfzKNoSO3KISKwUXZUM1rJ34YFYqgg",
+            authDomain: "bluefeathers-booking-48cef.firebaseapp.com",
+            projectId: "bluefeathers-booking-48cef",
+            storageBucket: "bluefeathers-booking-48cef.firebasestorage.app",
+            messagingSenderId: "939459423530",
+            appId: "1:939459423530:web:b83760e100ba97b21d8253",
+            measurementId: "G-HZT4HEMPZB"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const bookingsList = document.getElementById('pending-bookings-list');
+
+        // Listen for PENDING bookings
+        db.collection("bookings")
+            .where("status", "==", "pending")
+            .onSnapshot((snapshot) => {
+                bookingsList.innerHTML = '';
+                if (snapshot.empty) {
+                    bookingsList.innerHTML = '<div class="empty-state">No pending bookings. ✅</div>';
+                    return;
+                }
+                snapshot.forEach((docSnapshot) => {
+                    renderBookingCard(docSnapshot, bookingsList, 'pending');
+                });
+            });
+
+        // Listen for CONFIRMED bookings
+        const confirmedList = document.getElementById('confirmed-bookings-list');
+        db.collection("bookings")
+            .where("status", "==", "booked")
+            // Removed orderBy to avoid needing a composite index
+            .limit(50)
+            .onSnapshot((snapshot) => {
+                confirmedList.innerHTML = '';
