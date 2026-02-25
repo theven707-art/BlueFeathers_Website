@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -448,3 +448,222 @@
             .limit(50)
             .onSnapshot((snapshot) => {
                 confirmedList.innerHTML = '';
+                if (snapshot.empty) {
+                    confirmedList.innerHTML = '<div class="empty-state">No confirmed bookings yet.</div>';
+                    return;
+                }
+
+                // Client-side sorting (Newest first)
+                const docs = [];
+                snapshot.forEach(doc => docs.push({ id: doc.id, data: doc.data() }));
+                docs.sort((a, b) => {
+                    const tA = a.data.timestamp ? a.data.timestamp.seconds : 0;
+                    const tB = b.data.timestamp ? b.data.timestamp.seconds : 0;
+                    return tB - tA;
+                });
+
+                docs.forEach((item) => {
+                    // Create a dummy snapshot-like object for renderBookingCard
+                    const dummySnapshot = {
+                        id: item.id,
+                        data: () => item.data
+                    };
+                    renderBookingCard(dummySnapshot, confirmedList, 'booked');
+                });
+            }, (error) => {
+                console.error("Error loading confirmed bookings:", error);
+                confirmedList.innerHTML = `<div class="empty-state" style="color:red">Error loading bookings: ${error.message}</div>`;
+            });
+
+        function renderBookingCard(docSnapshot, container, type) {
+            const booking = docSnapshot.data();
+            const bookingId = docSnapshot.id;
+            const card = document.createElement('div');
+            card.className = 'booking-card reveal active';
+
+            // Safe strings for onclick handlers (escape single quotes)
+            const safeName = (booking.name || '').replace(/'/g, "\\'");
+            const safeDay = (booking.day || '').replace(/'/g, "\\'");
+            const safeTime = (booking.time || '').replace(/'/g, "\\'");
+
+            let statusBadge = type === 'pending'
+                ? '<span style="color: #F59E0B">Pending Approval</span>'
+                : '<span style="color: #10B981">Confirmed ✅</span>';
+
+            let buttons = '';
+            if (type === 'pending') {
+                buttons = `
+                    <button class="btn-approve" onclick="approveBooking('${bookingId}', '${safeDay}', '${safeTime}', '${safeName}')">✅ Approve</button>
+                    <button class="btn-reject" onclick="rejectBooking('${bookingId}')">❌ Reject (Delete)</button>
+                `;
+            } else {
+                buttons = `
+                    <button class="btn-reject" style="width:100%" onclick="deleteBooking('${bookingId}', '${safeDay}', '${safeTime}', '${safeName}')">🗑️ CANCEL & DELETE</button>
+                `;
+            }
+
+            card.innerHTML = `
+                <div class="booking-info">
+                    <h4>🏸 ${booking.day} at ${booking.time}</h4>
+                    <p><strong>Name:</strong> ${booking.name}</p>
+                    <p><strong>Contact:</strong> ${booking.contact}</p>
+                    <p><strong>Status:</strong> ${statusBadge}</p>
+                </div>
+                <div class="action-buttons">
+                    ${buttons}
+                </div>
+            `;
+            container.appendChild(card);
+        }
+
+        // Approve Function
+        window.approveBooking = async (id, day, time, name) => {
+            if (!isAuthenticated) { alert("⚠ Please login first!"); return; }
+            if (confirm(`Approve booking for ${name} on ${day} at ${time}?`)) {
+                try {
+                    await db.collection("bookings").doc(id).update({ status: "booked" });
+                    alert("Booking Approved! ✅");
+                } catch (e) {
+                    console.error("Error approving:", e);
+                    alert("Error approving booking.");
+                }
+            }
+        };
+
+        // Reject (Pending) Function
+        window.rejectBooking = async (id) => {
+            if (!isAuthenticated) { alert("⚠ Please login first!"); return; }
+            if (confirm("Reject and delete this request?")) {
+                try {
+                    await db.collection("bookings").doc(id).delete();
+                } catch (e) {
+                    alert("Error rejecting.");
+                }
+            }
+        };
+
+        // Delete (Confirmed) Function
+        window.deleteBooking = async (id, day, time, name) => {
+            if (!isAuthenticated) { alert("⚠ Please login first!"); return; }
+            if (confirm(`⚠️ Are you sure you want to DELETE the confirmed booking for ${name}?\n\nThis will free up the slot ${day} ${time} immediately.`)) {
+                try {
+                    await db.collection("bookings").doc(id).delete();
+                    alert("Booking Deleted. Slot is now Available.");
+                } catch (e) {
+                    console.error("Error deleting:", e);
+                    alert("Error deleting booking.");
+                }
+            }
+        };
+
+        // --- Permanent Bookings Logic ---
+
+        // Update Permanent Slot
+        window.updatePermanentBooking = async () => {
+            if (!isAuthenticated) { alert("⚠ Please login first!"); return; }
+
+            const day = document.getElementById('perm-day').value;
+            const time = document.getElementById('perm-time').value;
+            const name = document.getElementById('perm-name').value.trim();
+
+            try {
+                const docRef = db.collection("permanent_bookings").doc(day);
+
+                if (name) {
+                    // Set/Update
+                    await docRef.set({ [time]: name }, { merge: true });
+                    alert(`✅ Updated: ${day} ${time} -> ${name}`);
+                } else {
+                    // Delete
+                    await docRef.update({ [time]: firebase.firestore.FieldValue.delete() });
+                    alert(`🗑️ Deleted permanent slot: ${day} ${time}`);
+                }
+                document.getElementById('perm-name').value = ''; // Reset input
+            } catch (e) {
+                console.error("Error updating permanent:", e);
+                alert("Error updating schedule. (Doc might not exist yet if deleting?)");
+            }
+        };
+
+        // Listen for Permanent Bookings
+        const permList = document.getElementById('permanent-list');
+        db.collection("permanent_bookings").onSnapshot(snapshot => {
+            if (snapshot.empty) {
+                permList.innerHTML = '<div class="empty-state">No permanent schedule found. <button onclick="migratePermanentBookings()" class="btn-approve">Import from Default</button></div>';
+                return;
+            }
+
+            permList.innerHTML = '';
+            snapshot.forEach(doc => {
+                const day = doc.id;
+                const data = doc.data();
+                // Check if empty
+                if (Object.keys(data).length === 0) return;
+
+                const card = document.createElement('div');
+                card.className = 'booking-card active';
+                card.style.borderLeftColor = '#3B82F6';
+
+                let slotsHtml = '';
+                // Simple sort for display
+                const sortedTimes = Object.keys(data).sort((a, b) => {
+                    return a.localeCompare(b, undefined, { numeric: true });
+                });
+
+                sortedTimes.forEach(time => {
+                    const name = data[time];
+                    slotsHtml += `
+                        <div style="background:rgba(21,101,255,0.1); border:1px solid rgba(21,101,255,0.25); color:#7CB9FF; padding:8px 12px; border-radius:8px; margin:4px 0; display:flex; justify-content:space-between; align-items:center; font-size:0.9rem;">
+                            <span>${time}: <strong style="color:#C8D4FF">${name}</strong></span>
+                            <button onclick="window.deletePermanentSlot('${day}', '${time}', '${name}')" class="btn-reject" style="padding:4px 10px; font-size:0.78rem; width:auto; margin:0;">🗑️</button>
+                        </div>`;
+                });
+
+                card.innerHTML = `
+                    <div style="width:100%">
+                        <h4 style="color:#1565FF; border-bottom:1px solid rgba(21,101,255,0.25); padding-bottom:0.5rem; margin-bottom:0.5rem;">📅 ${day}</h4>
+                        <div>${slotsHtml}</div>
+                    </div>
+                `;
+                permList.appendChild(card);
+            });
+        });
+
+        // Delete Permanent Slot
+        window.deletePermanentSlot = async (day, time, name) => {
+            if (!isAuthenticated) { alert("⚠ Please login first!"); return; }
+            if (confirm(`Remove permanent slot for ${name} on ${day} at ${time}?`)) {
+                try {
+                    await db.collection("permanent_bookings").doc(day).update({
+                        [time]: firebase.firestore.FieldValue.delete()
+                    });
+                } catch (e) {
+                    alert("Error deleting slot: " + e.message);
+                }
+            }
+        };
+
+        // Migration Tool
+        window.migratePermanentBookings = async () => {
+            if (!isAuthenticated) { alert("⚠ Please login first!"); return; }
+            if (!confirm("Overwrite Database with defaults from ui.js?")) return;
+
+            const defaults = window.permanentBookings;
+            if (!defaults) return alert("No defaults found in ui.js");
+
+            try {
+                for (const day of Object.keys(defaults)) {
+                    if (Object.keys(defaults[day]).length > 0) {
+                        await db.collection("permanent_bookings").doc(day).set(defaults[day]);
+                    }
+                }
+                alert("Migration Complete! ✅");
+            } catch (e) {
+                console.error(e);
+                alert("Migration Failed");
+            }
+        };
+    </script>
+</body>
+
+</html>
