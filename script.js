@@ -656,9 +656,9 @@ window.prepareBooking = async function () {
 📱 Contact: ${contact}
 
 💰 Total Amount: Rs. ${totalAmount}
-🏦 Bank: Commercial Bank
-💳 Account: 8028380685
-👤 Name: Theven Abraham
+🏦 Bank: Pan Asia
+💳 Account: 102411000137
+👤 Name: Blue Feathers Sports Park
 
 *Booking Status: PENDING*
 Please verify payment to Confirm.`;
