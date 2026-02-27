@@ -234,4 +234,22 @@ document.addEventListener('DOMContentLoaded', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
+
+    // --- Coach Contact Click Handler ---
+    document.querySelectorAll('.coach-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const h3 = card.querySelector('h3');
+            const p = card.querySelector('p');
+            if (h3 && p) {
+                const name = h3.textContent.trim();
+                const phoneMatch = p.textContent.match(/[\d-]+/);
+                if (phoneMatch) {
+                    const phone = phoneMatch[0].replace(/-/g, '').trim();
+                    if (confirm(`Would you like to call ${name}?`)) {
+                        window.location.href = `tel:${phone}`;
+                    }
+                }
+            }
+        });
+    });
 });

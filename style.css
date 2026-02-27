@@ -1435,6 +1435,7 @@ td.available:hover {
     text-align: center;
     transition: var(--trans);
     backdrop-filter: blur(8px);
+    cursor: pointer;
 }
 
 .coach-card:hover {
@@ -2182,6 +2183,7 @@ footer::before {
         min-width: 500px;
     }
 }
+
 /* ============================================
    VISUAL FLAIR ENHANCEMENTS  More Excitement
    ============================================ */
@@ -2190,41 +2192,48 @@ footer::before {
 .hero h1 {
     animation: heroGlow 4s ease-in-out infinite alternate;
 }
+
 @keyframes heroGlow {
-    from { filter: drop-shadow(0 0 20px rgba(21,101,255,0.3)); }
-    to   { filter: drop-shadow(0 0 50px rgba(21,101,255,0.7)); }
+    from {
+        filter: drop-shadow(0 0 20px rgba(21, 101, 255, 0.3));
+    }
+
+    to {
+        filter: drop-shadow(0 0 50px rgba(21, 101, 255, 0.7));
+    }
 }
 
 /* Neon scan-line effect on hero */
 .hero::after {
     background: linear-gradient(180deg,
-        rgba(5,9,26,0.1) 0%,
-        rgba(5,9,26,0.6) 60%,
-        rgba(5,9,26,0.92) 100%),
+            rgba(5, 9, 26, 0.1) 0%,
+            rgba(5, 9, 26, 0.6) 60%,
+            rgba(5, 9, 26, 0.92) 100%),
         repeating-linear-gradient(0deg,
             transparent,
             transparent 3px,
-            rgba(21,101,255,0.015) 3px,
-            rgba(21,101,255,0.015) 4px
-        );
+            rgba(21, 101, 255, 0.015) 3px,
+            rgba(21, 101, 255, 0.015) 4px);
 }
 
 /* Gradient border glow on facility cards */
 .facility-card {
     background: linear-gradient(var(--bg2), var(--bg2)) padding-box,
-                linear-gradient(135deg, rgba(21,101,255,0.3), rgba(245,200,66,0.15)) border-box;
+        linear-gradient(135deg, rgba(21, 101, 255, 0.3), rgba(245, 200, 66, 0.15)) border-box;
     border: 1px solid transparent;
 }
+
 .facility-card:hover {
     background: linear-gradient(var(--bg2), var(--bg2)) padding-box,
-                linear-gradient(135deg, rgba(21,101,255,0.8), rgba(245,200,66,0.5)) border-box;
-    box-shadow: 0 0 30px rgba(21,101,255,0.25), 0 20px 50px rgba(0,0,0,0.4);
+        linear-gradient(135deg, rgba(21, 101, 255, 0.8), rgba(245, 200, 66, 0.5)) border-box;
+    box-shadow: 0 0 30px rgba(21, 101, 255, 0.25), 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 /* Pulsing dots decoration on section titles */
 .section-title {
     position: relative;
 }
+
 .section-title::before {
     content: '';
     position: absolute;
@@ -2236,9 +2245,19 @@ footer::before {
     opacity: 0.6;
     animation: dotPulse 2s ease-in-out infinite;
 }
+
 @keyframes dotPulse {
-    0%,100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
-    50%      { opacity: 0.9; transform: translateX(-50%) scale(1.5); }
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.9;
+        transform: translateX(-50%) scale(1.5);
+    }
 }
 
 /* Animated gradient blob behind stats section */
@@ -2246,19 +2265,33 @@ footer::before {
     position: relative;
     overflow: hidden;
 }
+
 .stats-section::after {
     content: '';
     position: absolute;
-    top: -100px; left: -100px;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(21,101,255,0.15), transparent 70%);
+    top: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(21, 101, 255, 0.15), transparent 70%);
     animation: blobFloat 8s ease-in-out infinite;
     pointer-events: none;
 }
+
 @keyframes blobFloat {
-    0%,100% { transform: translate(0,0) scale(1); }
-    33%     { transform: translate(60px,30px) scale(1.1); }
-    66%     { transform: translate(-30px,60px) scale(0.95); }
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(60px, 30px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-30px, 60px) scale(0.95);
+    }
 }
 
 /* Shimmer effect on price items */
@@ -2266,19 +2299,30 @@ footer::before {
     position: relative;
     display: inline-block;
 }
+
 .price-item strong::after {
     content: '';
     position: absolute;
-    top: 0; left: -100%;
+    top: 0;
+    left: -100%;
     width: 60%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(245,200,66,0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(245, 200, 66, 0.3), transparent);
     animation: shimmer 3s ease-in-out infinite;
 }
+
 @keyframes shimmer {
-    0%   { left: -100%; }
-    50%  { left: 150%; }
-    100% { left: 150%; }
+    0% {
+        left: -100%;
+    }
+
+    50% {
+        left: 150%;
+    }
+
+    100% {
+        left: 150%;
+    }
 }
 
 /* Neon underline on nav active link */
@@ -2289,14 +2333,14 @@ footer::before {
 
 /* Glowing bottom nav active icon */
 .mobile-bottom-nav a.active {
-    background: rgba(21,101,255,0.12);
+    background: rgba(21, 101, 255, 0.12);
     border-radius: 12px;
 }
 
 /* Animated gradient border on booking form */
 .booking-form {
     background: linear-gradient(var(--bg2), var(--bg2)) padding-box,
-                linear-gradient(180deg, rgba(21,101,255,0.4), rgba(245,200,66,0.2)) border-box;
+        linear-gradient(180deg, rgba(21, 101, 255, 0.4), rgba(245, 200, 66, 0.2)) border-box;
     border: 1px solid transparent;
 }
 
@@ -2304,23 +2348,23 @@ footer::before {
 .membership-card:hover,
 .why-card:hover,
 .coach-card:hover {
-    box-shadow: 0 20px 60px rgba(21,101,255,0.2), 0 0 0 1px rgba(21,101,255,0.3);
+    box-shadow: 0 20px 60px rgba(21, 101, 255, 0.2), 0 0 0 1px rgba(21, 101, 255, 0.3);
 }
 
 /* Glowing gallery item on hover */
 .gallery-item:hover {
-    box-shadow: 0 0 30px rgba(21,101,255,0.3);
-    border-color: rgba(21,101,255,0.5);
+    box-shadow: 0 0 30px rgba(21, 101, 255, 0.3);
+    border-color: rgba(21, 101, 255, 0.5);
 }
 
 /* Menu item slide glow */
 .menu-item:hover {
-    box-shadow: 4px 0 20px rgba(21,101,255,0.15);
+    box-shadow: 4px 0 20px rgba(21, 101, 255, 0.15);
 }
 
 /* Neon "Book Now" CTA pulse on badminton page */
 .btn:hover {
-    box-shadow: 0 0 30px rgba(21,101,255,0.6), 0 8px 25px rgba(21,101,255,0.3);
+    box-shadow: 0 0 30px rgba(21, 101, 255, 0.6), 0 8px 25px rgba(21, 101, 255, 0.3);
 }
 
 /* ============================================
@@ -2336,6 +2380,7 @@ footer::before {
     transition: opacity 0.3s, transform 0.4s;
     display: block;
 }
+
 .menu-category:hover .menu-category-banner {
     opacity: 1;
     transform: scale(1.02);
@@ -2343,5 +2388,7 @@ footer::before {
 
 /* Taller banner on wider screens */
 @media (min-width: 768px) {
-    .menu-category-banner { height: 160px; }
+    .menu-category-banner {
+        height: 160px;
+    }
 }
