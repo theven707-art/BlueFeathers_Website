@@ -656,9 +656,9 @@ window.prepareBooking = async function () {
 📱 Contact: ${contact}
 
 💰 Total Amount: Rs. ${totalAmount}
-🏦 Bank: Pan Asia
-💳 Account: 102411000137
-👤 Name: Blue Feathers Sports Park
+🏦 Bank: Pan Asia Moratuwa
+💳 Account: 202410031579
+👤 Name: S D Nawaratne
 
 *Booking Status: PENDING*
 Please verify payment to Confirm.`;
